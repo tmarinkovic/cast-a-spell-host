@@ -8,15 +8,21 @@ import './missile.css'
 class Missile extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = {
-      shoot: false
-    };
     this.windowHeight = this.props.position === 'top' ? WINDOW_HEIGHT : -WINDOW_HEIGHT;
   }
 
   componentDidMount() {
-    this.setState({shoot: true})
+    this.forceUpdate();
   }
+
+  getMissileStyle = (x, y) => {
+    return {
+      display: y !== this.windowHeight ? 'block' : 'none',
+      [this.props.position]: 0,
+      WebkitTransform: `translate3d(${x}px, ${y}px, 0)`,
+      transform: `translate3d(${x}px, ${y}px, 0)`,
+    }
+  };
 
   render() {
     return (
@@ -28,21 +34,14 @@ class Missile extends PureComponent {
           })}
           update={() => ({
             x: [this.props.current],
-            y: [this.state.shoot === true ? this.windowHeight : 0],
+            y: [this.windowHeight],
             timing: {duration: this.props.speed, ease: easeLinear},
           })}
         >{(position) => {
           const {x, y} = position;
           return (
             <div>
-              <div className="missile"
-                   style={{
-                     display: (this.state.shoot && y !== this.windowHeight) ? 'block' : 'none',
-                     [this.props.position]: 0,
-                     WebkitTransform: `translate3d(${x}px, ${y}px, 0)`,
-                     transform: `translate3d(${x}px, ${y}px, 0)`,
-                   }}
-              />
+              <div className="missile" style={this.getMissileStyle(x, y)}/>
             </div>
           )
         }}
