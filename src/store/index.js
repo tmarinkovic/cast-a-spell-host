@@ -1,8 +1,14 @@
-import { createStore } from 'redux';
-import storyReducer from '../reducers/story';
+import {createStore, compose} from 'redux';
+import scoreReducer from '../reducers/score';
+
+const enhancers = compose(
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 
 const store = createStore(
-  storyReducer
+  scoreReducer,
+  undefined,
+  enhancers
 );
 
 export default store;

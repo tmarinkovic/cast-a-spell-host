@@ -1,0 +1,19 @@
+.player {
+    height: 20px;
+    border-radius: 4px;
+    background-color: white;
+    position: absolute;
+    text-align: center;
+}
+
+.player-health {
+    height: 100%;
+    background-color: lightcoral;
+    position: absolute;
+    right: 0;
+    z-index: -10;
+}
+
+.health-status {
+    height: 0;
+}

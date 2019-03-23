@@ -1,0 +1,1 @@
+export const PLAYER_ONE_SCORE = 'PLAYER_ONE_SCORE';
