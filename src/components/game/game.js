@@ -34,19 +34,17 @@ class Game extends Component {
     document.removeEventListener("keydown", this.keyEvent, false);
   }
 
-  move = (playerNumber, direction) => {
-    this.refs[`player${playerNumber}`].move(direction)
-  };
+  move = (playerNumber, direction) => this.refs[`player${playerNumber}`].move(direction);
 
   shoot = (playerNumber) => {
     const that = this;
-    const missile = this.refs[`player${playerNumber}`].shoot(Date.now());
+    const missilePosition = this.refs[`player${playerNumber}`].shoot(Date.now());
     const effectedPlayerNumber = playerNumber === 1 ? 2 : 1;
     setTimeout(
       function () {
         if (
-          that.refs[`player${effectedPlayerNumber}`].getPosition() < missile &&
-          that.refs[`player${effectedPlayerNumber}`].getPosition() + PLAYER_WIDTH > missile
+          that.refs[`player${effectedPlayerNumber}`].getPosition() < missilePosition &&
+          that.refs[`player${effectedPlayerNumber}`].getPosition() + PLAYER_WIDTH > missilePosition
         ) {
           that.refs[`player${effectedPlayerNumber}`].damage()
         }
