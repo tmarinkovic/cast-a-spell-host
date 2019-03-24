@@ -2,9 +2,8 @@ import React, {PureComponent} from 'react'
 import {Animate} from 'react-move'
 import {easeLinear} from 'd3-ease'
 import Missile from "../missile/missile";
-import {PLAYER_SPEED, PLAYER_WIDTH, MISSILE_SPEED, WINDOW_WIDTH} from "../../constants/sizes"
+import {MISSILE_SPEED, PLAYER_SPEED, PLAYER_WIDTH, WINDOW_WIDTH} from "../../constants/sizes"
 import './player.css'
-
 
 class Player extends PureComponent {
   constructor(props) {
@@ -20,14 +19,16 @@ class Player extends PureComponent {
     this.cleanMissiles();
   }
 
-  damagePerHit = () => Math.random() * 3 + 1;
+  damagePerHit = () => Math.random() * 2 + 1;
+
+  getPosition = () => this.current;
 
   move = direction => this.setState({move: direction});
 
-  shoot = () => {
+  shoot = (timestamp) => {
     const missile = this.spawnMissile();
     this.setState({missile: this.state.missile.concat(missile)});
-    this.lastShoot = Date.now();
+    this.lastShoot = timestamp;
     return this.current + PLAYER_WIDTH / 2;
   };
 
@@ -40,7 +41,7 @@ class Player extends PureComponent {
     }, MISSILE_SPEED + 200);
   };
 
-  getSpeed() {
+  getSpeed = () => {
     let difference = this.current;
     if (this.state.move === 'none') {
       return 0;
@@ -49,9 +50,9 @@ class Player extends PureComponent {
       difference = WINDOW_WIDTH - PLAYER_WIDTH - this.current
     }
     return ((difference) * PLAYER_SPEED) / (WINDOW_WIDTH - PLAYER_WIDTH)
-  }
+  };
 
-  getDirection() {
+  getDirection = () => {
     switch (this.state.move) {
       case 'left':
         return 0;
@@ -62,27 +63,26 @@ class Player extends PureComponent {
       default:
         return this.current;
     }
-  }
+  };
 
-  spawnMissile() {
-    return <Missile key={Date.now()} speed={MISSILE_SPEED} position={this.props.position}
-                    current={this.current + (PLAYER_WIDTH / 2)}/>
-  }
+  spawnMissile = () =>
+    <Missile
+      key={Date.now()}
+      speed={MISSILE_SPEED}
+      position={this.props.position}
+      current={this.current + (PLAYER_WIDTH / 2)}
+    />;
 
-  getPosition() {
-    return this.current;
-  }
-
-  getPlayerStyle(x) {
+  getPlayerStyle = (x) => {
     return {
       [this.props.position]: 0,
       width: PLAYER_WIDTH,
       WebkitTransform: `translate3d(${x}px, 0, 0)`,
       transform: `translate3d(${x}px, 0, 0)`,
     }
-  }
+  };
 
-  getPlayerHealthStyle() {
+  getPlayerHealthStyle = () => {
     let borderRadius = '0 4px 4px 0';
     if (this.state.health === 0) {
       borderRadius = '4px';
@@ -91,15 +91,12 @@ class Player extends PureComponent {
       width: `${100 - this.state.health}%`,
       borderRadius: borderRadius
     }
-  }
+  };
 
-  damage() {
-    if (this.state.health <= 0) {
-      this.setState({health: 0})
-    } else {
-      this.setState({health: this.state.health - this.damagePerHit()})
-    }
-  }
+  damage = () => {
+    this.setState({health: this.state.health - this.damagePerHit()});
+    if (this.state.health <= 0) this.setState({health: 0})
+  };
 
   render() {
     return (

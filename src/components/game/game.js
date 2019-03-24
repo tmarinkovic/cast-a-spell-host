@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Player from "../player/player";
-import {PLAYER_WIDTH, MISSILE_SPEED} from "../../constants/sizes"
+import {MISSILE_SPEED, PLAYER_WIDTH} from "../../constants/sizes"
 
 class Game extends Component {
 
@@ -40,7 +40,7 @@ class Game extends Component {
 
   shoot = (playerNumber) => {
     const that = this;
-    const missile = this.refs[`player${playerNumber}`].shoot();
+    const missile = this.refs[`player${playerNumber}`].shoot(Date.now());
     const effectedPlayerNumber = playerNumber === 1 ? 2 : 1;
     setTimeout(
       function () {
