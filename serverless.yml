@@ -1,0 +1,29 @@
+service: cast-a-spell-host
+
+plugins:
+  - serverless-s3-sync
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: dev
+  region: eu-west-1
+  memorySize: 128
+  timeout: 10
+  profile: tmarinkovic
+
+resources:
+  Resources:
+    castASpellBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: cast-a-spell-host
+        AccessControl: PublicRead
+        WebsiteConfiguration:
+          IndexDocument: index.html
+
+custom:
+  s3Sync:
+    - bucketName: cast-a-spell-host
+      localDir: build
+      acl: public-read

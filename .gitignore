@@ -1,5 +1,6 @@
 .DS_STORE
 node_modules
+jspm_packages
 scripts/flow/*/.flowconfig
 *~
 *.pyc
@@ -22,3 +23,4 @@ chrome-user-data
 .vscode
 *.swp
 *.swo
+.serverless

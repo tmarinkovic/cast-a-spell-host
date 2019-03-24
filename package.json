@@ -22,7 +22,8 @@
     "react-scripts": "2.1.3",
     "react-test-renderer": "16.8.1",
     "redux": "4.0.1",
-    "redux-logger": "3.0.6"
+    "redux-logger": "3.0.6",
+    "serverless-s3-sync": "^1.7.3"
   },
   "devDependencies": {
     "identity-obj-proxy": "^3.0.0"
@@ -31,7 +32,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "npm run build && serverless deploy && echo 'http://cast-a-spell-host.s3-website-eu-west-1.amazonaws.com'",
+    "remove": "serverless remove"
   },
   "eslintConfig": {
     "extends": "react-app"
