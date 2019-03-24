@@ -83,13 +83,9 @@ class Player extends PureComponent {
   };
 
   getPlayerHealthStyle = () => {
-    let borderRadius = '0 4px 4px 0';
-    if (this.state.health === 0) {
-      borderRadius = '4px';
-    }
     return {
       width: `${100 - this.state.health}%`,
-      borderRadius: borderRadius
+      borderRadius: this.state.health === 0 ? '4px' : '0 4px 4px 0'
     }
   };
 
