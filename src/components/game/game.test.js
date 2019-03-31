@@ -96,6 +96,13 @@ describe('Game', () => {
     expect(ip).toBe("localhost");
   });
 
+  it('should return ip localhost when REACT_APP_PUBLIC_IP is empty', () => {
+    process.env.REACT_APP_PUBLIC_IP = "";
+    const gameComponent = shallow(getGame()).instance();
+    const ip = gameComponent.getIp();
+    expect(ip).toBe("localhost");
+  });
+
   it('should return ip of ec2 machine when REACT_APP_PUBLIC_IP is set', () => {
     process.env.REACT_APP_PUBLIC_IP = "123.123.123.123";
     const gameComponent = shallow(getGame()).instance();

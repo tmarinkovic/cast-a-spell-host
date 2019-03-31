@@ -75,7 +75,7 @@ class Game extends Component {
   };
 
   getIp = () => {
-    if (process.env.REACT_APP_PUBLIC_IP === undefined) {
+    if (process.env.REACT_APP_PUBLIC_IP === undefined || process.env.REACT_APP_PUBLIC_IP === '') {
       return 'localhost';
     } else {
       return process.env.REACT_APP_PUBLIC_IP.trim();
