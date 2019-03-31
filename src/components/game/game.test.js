@@ -1,9 +1,25 @@
 import React from 'react'
-import Enzyme, {mount} from 'enzyme'
+import Enzyme, {mount, shallow} from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import Game from "./game";
+
 import Player from "../player/player";
 import {MISSILE_SPEED} from "../../constants/sizes";
+
+require("uuid");
+require('axios');
+jest.mock('uuid', () =>
+  jest.fn(() => "mocked uuid")
+);
+jest.mock('axios', () => {
+  return {
+    get: () => Promise.resolve({
+      data: {
+        roomId: 1
+      }
+    })
+  }
+});
 
 Enzyme.configure({adapter: new Adapter()});
 
@@ -60,6 +76,31 @@ describe('Game', () => {
         const playerTwoHealth = gameMount.find(Player).first().instance().state.health;
         expect(playerTwoHealth).toBe(100);
       }, MISSILE_SPEED + 100);
+  });
+
+  it('should generate sessionId for socket connection', () => {
+    const gameComponent = shallow(getGame()).instance();
+    const sessionId = gameComponent.generateSessionId();
+    expect(sessionId).toBe("mocked uuid");
+  });
+
+  it.skip('should save roomId in state on generation sessionId', () => {
+    const gameComponent = shallow(getGame()).instance();
+    gameComponent.generateSessionId();
+    expect(gameComponent.state.roomId).toBe(1);
+  });
+
+  it('should return ip localhost when REACT_APP_PUBLIC_IP not set', () => {
+    const gameComponent = shallow(getGame()).instance();
+    const ip = gameComponent.getIp();
+    expect(ip).toBe("localhost");
+  });
+
+  it('should return ip of ec2 machine when REACT_APP_PUBLIC_IP is set', () => {
+    process.env.REACT_APP_PUBLIC_IP = "123.123.123.123";
+    const gameComponent = shallow(getGame()).instance();
+    const ip = gameComponent.getIp();
+    expect(ip).toBe("123.123.123.123");
   });
 
 });
