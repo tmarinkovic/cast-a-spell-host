@@ -1,3 +1,24 @@
 body{
-    background-color: #221E50;
+    background-color: #211E50;
+}
+
+.status-circle {
+    float: right;
+    height: 20px;
+    width: 20px;
+    border-radius: 20px;
+}
+
+.red {
+    background-color: darkred;
+}
+
+.green {
+    background-color: green;
+}
+
+.game-stats {
+    float: right;
+    color: white;
+    padding: 5px 10px 5px 5px;
 }
